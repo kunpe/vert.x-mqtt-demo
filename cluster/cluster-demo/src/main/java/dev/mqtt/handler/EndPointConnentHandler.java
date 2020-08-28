@@ -1,6 +1,7 @@
 package dev.mqtt.handler;
 
-import dev.mqtt.container.MqttSessionContainer;
+import dev.mqtt.MqttLauncher;
+import dev.mqtt.utils.MqttSessionUtils;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.mqtt.MqttEndpoint;
@@ -10,7 +11,7 @@ public class EndPointConnentHandler {
 
   public static void disconnect(String clientId,MqttEndpoint endpoint) {
     endpoint.disconnectHandler( event -> {
-      MqttSessionContainer.mqttSessionContainer.remove(clientId);
+      MqttSessionUtils.remove(clientId, MqttLauncher.vertx);
       log.info(clientId + " has offline.");
     });
   }

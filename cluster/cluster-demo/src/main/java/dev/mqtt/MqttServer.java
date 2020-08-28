@@ -1,10 +1,10 @@
 package dev.mqtt;
 
-import dev.mqtt.container.MqttSessionContainer;
 import dev.mqtt.entity.MqttSession;
 import dev.mqtt.handler.EndPointConnentHandler;
 import dev.mqtt.handler.EndPointMessageHandler;
 import dev.mqtt.handler.EndPointSubscribeHandler;
+import dev.mqtt.utils.MqttSessionUtils;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -36,8 +36,9 @@ public class MqttServer extends AbstractVerticle {
 
       // accept connection from the remote client
       endpoint.accept(false);
-      MqttSessionContainer.mqttSessionContainer.put(endpoint.clientIdentifier(),new MqttSession().endpoint(endpoint));
-      //
+      MqttSessionUtils.put(endpoint.clientIdentifier(),new MqttSession().endpoint(endpoint),vertx);
+
+
 
       grantedQosLevels = new ArrayList<>();
       // 注册下线事件监听

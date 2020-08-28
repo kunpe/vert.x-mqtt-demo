@@ -1,12 +1,12 @@
 package dev.mqtt.api;
 
-import dev.mqtt.container.MqttSessionContainer;
+import dev.mqtt.entity.MqttSession;
 import dev.mqtt.handler.EndPointMessageHandler;
+import dev.mqtt.utils.MqttSessionUtils;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
@@ -23,24 +23,12 @@ public class EndpointInfoVerticle extends AbstractVerticle {
       String topic = routingContext.pathParam("topic");
       String clientId = routingContext.pathParam("clientId");
       String bodyAsString = routingContext.getBodyAsString();
-      if (MqttSessionContainer.mqttSessionContainer.size() > 0) {
-        if (Objects.isNull(bodyAsString)) {
-          bodyAsString = "Hello";
-        }
-        JsonObject res = new JsonObject();
-        MqttSessionContainer.mqttSessionContainer.forEach((key,value) -> {
-          res.put(key,value.mqttTopicSubscriptions().stream().map(Objects::toString).collect(Collectors.joining("")));
-        });
-
-        EndPointMessageHandler.publish(topic,bodyAsString,MqttSessionContainer.getByClientId(clientId));
-        routingContext.response()
-          .putHeader("content-type", "text/plain")
-          .end(res.toString());
-      } else {
+      bodyAsString = "Hello";
+      MqttSession mqttSession = MqttSessionUtils.get(clientId, vertx);
+      EndPointMessageHandler.publish(topic,bodyAsString,mqttSession.endpoint());
         routingContext.response()
           .putHeader("content-type", "text/plain")
           .end("No mqtt connection");
-      }
     });
     server.requestHandler(router).listen(1234,handler -> {
       if (handler.succeeded()) {

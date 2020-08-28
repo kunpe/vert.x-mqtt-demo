@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="vertx-mqtt-server" />
+        <module name="cluster-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cluster" target="1.5" />
+      <module name="cluster-demo" target="11" />
+      <module name="mqtt-project" target="1.5" />
+      <module name="vertx-mqtt-server" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
