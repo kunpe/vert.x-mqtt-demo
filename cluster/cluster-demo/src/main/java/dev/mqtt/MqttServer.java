@@ -39,7 +39,6 @@ public class MqttServer extends AbstractVerticle {
       MqttSessionUtils.put(endpoint.clientIdentifier(),new MqttSession().endpoint(endpoint),vertx);
 
 
-
       grantedQosLevels = new ArrayList<>();
       // 注册下线事件监听
       EndPointConnentHandler.disconnect(clientId,endpoint);
